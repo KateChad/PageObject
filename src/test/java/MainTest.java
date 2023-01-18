@@ -23,22 +23,23 @@ public void mainTest(){
     pageManager.getProductPage()
             .getBaseMenuBlock()
             .goToBasket();
-    pageManager.getBasketPage().checkWarranty();
-    int priceProductInBasket = pageManager.getBasketPage().getPriceProduct();
+    pageManager.getBasketPage().checkWarranty("5072935");
+    int priceProductInBasket = pageManager.getBasketPage().getPriseOfProductInBasket("5072935");
     Assertions.assertEquals(priceProduct,priceProductInBasket,"Не верная стоимость 1 товара");
-    int priceProduct2InBasket = pageManager.getBasketPage().getPriceProduct2();
+    //не считывает стоимость второго товара так как первая проходка выкидывает асершн
+    int priceProduct2InBasket = pageManager.getBasketPage().getPriseOfProductInBasket("5072988");
     Assertions.assertEquals(priceProduct2,priceProduct2InBasket,"Не верная стоимость 2 товара");
     int priceBasket = pageManager.getBasketPage().getBasketPrice();
     Assertions.assertEquals(sumPrice1,priceBasket,"Не верная стоимость корзины");
-    pageManager.getBasketPage().deleteProduct2();
+    pageManager.getBasketPage().removeProductInBasket("5072988");
     int priceBasketWithout2 = pageManager.getBasketPage().getBasketPrice();
     Assertions.assertEquals(priceBasket-priceProduct2,priceBasketWithout2,"Не изменилась сумма товара после удаления");
     pageManager.getBasketPage()
-            .plusCountProduct1()
-            .plusCountProduct1()
+            .countOfProductInBasket("5072935")
+            .countOfProductInBasket("5072935")
             .returnProduct();
     int priceBasketEnd = pageManager.getBasketPage().getBasketPrice();
-    Assertions.assertEquals(priceProduct2+3*(priceProduct+priceWarranty),priceBasketEnd,"Не изменилась сумма товара после удаления");
+    Assertions.assertEquals(priceProduct2+3*(priceProduct+priceWarranty),priceBasketEnd,"Не верная итоговая стоимость");
 
 
 

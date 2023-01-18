@@ -24,7 +24,12 @@ public class BaseMenuBlock extends BasePage {
     }
 
     public int getPriceInBasket(){
-        return Integer.parseInt(priceInBasket.getText().replaceAll("[^0-9]",""));
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return Integer.parseInt(waitUntilElementToBeVisible(priceInBasket).getText().replaceAll("[^0-9]",""));
     }
 
     public BasketPage goToBasket(){
