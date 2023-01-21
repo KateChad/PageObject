@@ -10,33 +10,33 @@ public class PageManager {
     private ProductPage productPage;
     private BasketPage basketPage;
 
-    private PageManager(){
+    private PageManager() {
 
     }
 
-    public static PageManager getInstance(){
-        if (INSTANCE == null){
+    public static PageManager getInstance() {
+        if (INSTANCE == null) {
             INSTANCE = new PageManager();
         }
         return INSTANCE;
     }
 
-    public StartPage getStartPage(){
-        if (startPage == null){
+    public StartPage getStartPage() {
+        if (startPage == null) {
             startPage = new StartPage();
         }
         return startPage;
     }
 
-    public ProductPage getProductPage(){
-        if (productPage == null){
+    public ProductPage getProductPage() {
+        if (productPage == null) {
             productPage = new ProductPage();
         }
         return productPage;
     }
 
-    public BasketPage getBasketPage(){
-        if (basketPage == null){
+    public BasketPage getBasketPage() {
+        if (basketPage == null) {
             basketPage = new BasketPage();
         }
         return basketPage;

@@ -9,39 +9,40 @@ public class TestPropManager {
     private final Properties properties = new Properties();
     private static TestPropManager INSTANCE = null;
 
-    private TestPropManager(){
-      loadApplicationProperties();
-      loadCustomProperties();
+    private TestPropManager() {
+        loadApplicationProperties();
+        loadCustomProperties();
     }
 
-    public static TestPropManager getInstance(){
-        if (INSTANCE == null){
+    public static TestPropManager getInstance() {
+        if (INSTANCE == null) {
             INSTANCE = new TestPropManager();
         }
         return INSTANCE;
     }
 
-    private void loadApplicationProperties(){
+    private void loadApplicationProperties() {
         try {
             properties.load(new FileInputStream(new File("src/main/resources/" +
-                    System.getProperty("propFile","application") + ".properties")));
-        } catch (IOException e){
+                    System.getProperty("propFile", "application") + ".properties")));
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void loadCustomProperties(){
-        properties.forEach((key,value)->System.getProperties().forEach((customUserKey, customUserValue)->{
-            if (key.toString().equals(customUserKey.toString()) && !value.toString().equals(customUserValue.toString())){
-                properties.setProperty(key.toString(),customUserValue.toString());
+    private void loadCustomProperties() {
+        properties.forEach((key, value) -> System.getProperties().forEach((customUserKey, customUserValue) -> {
+            if (key.toString().equals(customUserKey.toString()) && !value.toString().equals(customUserValue.toString())) {
+                properties.setProperty(key.toString(), customUserValue.toString());
             }
         }));
     }
 
-    public String getProperty(String key, String defaultVavue){
-        return properties.getProperty(key,defaultVavue);
+    public String getProperty(String key, String defaultVavue) {
+        return properties.getProperty(key, defaultVavue);
     }
-    public String getProperty(String key){
+
+    public String getProperty(String key) {
         return properties.getProperty(key);
     }
 

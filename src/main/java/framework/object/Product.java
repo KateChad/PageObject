@@ -1,13 +1,8 @@
 package framework.object;
 
-import framework.managers.PageManager;
-
 public class Product {
-    //прописать в мэйн тесте
-    PageManager pageManager = PageManager.getInstance();
-    int priceProduct = pageManager.getProductPage().getPriceProduct();
-    int priceWarranty = pageManager.getProductPage().getPriceWarranty();
-    int priceProductWithWarranty = priceWarranty + priceProduct;
+    int priceProduct;
+    int priceWarranty;
 
     public int getPriceProduct() {
         return priceProduct;
@@ -18,6 +13,16 @@ public class Product {
     }
 
     public int getPriceProductWithWarranty() {
-        return priceProductWithWarranty;
+        return priceWarranty + priceProduct;
     }
+
+    public void setPriceProduct(int priceProduct) {
+        this.priceProduct = priceProduct;
+    }
+
+    public void setPriceWarranty(int priceWarranty) {
+        this.priceWarranty = priceWarranty;
+    }
+
+
 }
