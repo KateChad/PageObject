@@ -26,11 +26,12 @@ public class BasketPage extends BasePage {
         return this;
     }
 //разбить условие
-    public BasketPage checkWarranty(String articl) {
+    public BasketPage checkWarranty(String articl, String textWsrranty) {
         for (WebElement product : shoppingList) {
-            if (product.findElement(By.xpath(".//div[contains(@class,'base-ui-radio-button__checked')]"))
-                    .getText().contains("+") && product.findElement(By.xpath(".//div[@class='cart-items__product-code']/div"))
+            if (product.findElement(By.xpath(".//div[@class='cart-items__product-code']/div"))
                     .getText().contains(articl)) {
+                Assertions.assertTrue(product.findElement(By.xpath(".//div[contains(@class,'base-ui-radio-button__checked')]"))
+                        .getText().contains(textWsrranty),"Гарантия для товара с артиклем " + articl +" "+ textWsrranty + "не выбрана");
                 return this;
             }
         }

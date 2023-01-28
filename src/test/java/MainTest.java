@@ -34,7 +34,7 @@ public class MainTest extends BaseTests {
                 .checkPriceInBasketLabel()
                 .goToBasket()
                 .checkPageBasket()
-                .checkWarranty(iphone.getArticle())
+                .checkWarranty(iphone.getArticle(),"12")
                 .checkPriseProductInBasket(iphone)
                 .checkPriseProductInBasket(airPods)
                 .checkBasketPrice()
