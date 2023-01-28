@@ -56,8 +56,9 @@ public class ProductPage extends BasePage {
         return this;
     }
 
-    public ProductPage clickBuy() {
+    public ProductPage clickBuy(Product product) {
         waitUntilElementToBeClicable(buttonBuy).click();
+        product.addProduct();
         return this;
     }
 

@@ -8,19 +8,24 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ProductList {
-    static Map<Product, String> mapOfProduct = new HashMap<>();
+    static Map<String, Product> mapOfProduct = new HashMap<>();
 
-    public static void addInMap(Product product, String productArticl) {
-        mapOfProduct.put(product,
-                productArticl);
+    public static void addInMap(String productArticl, Product product) {
+        mapOfProduct.put(productArticl, product);
     }
 
-    public static String returnArticle(Product product) {
-        return mapOfProduct.get(product);
+    public static Product returnArticle(String article) {
+        return mapOfProduct.get(article);
     }
 
     public static int sizeMapOfProduct() {
-        return mapOfProduct.size();
+        List<Product> products = mapOfProduct.entrySet().stream().map(Map.Entry::getValue)
+                .collect(Collectors.toList());
+        int count = 0;
+        for (Product product : products) {
+                count += product.getCountOfProduct();
+        }
+        return count;
     }
 
     public static void removeProduct(Product product) {
@@ -28,11 +33,11 @@ public class ProductList {
     }
 
     public static int sumPrice() {
-        List<Product> products = mapOfProduct.entrySet().stream().map(Map.Entry::getKey)
+        List<Product> products = mapOfProduct.entrySet().stream().map(Map.Entry::getValue)
                 .collect(Collectors.toList());
         int sum = 0;
         for (Product product : products) {
-            sum += product.getPriceProductWithWarranty();
+                sum += product.getPriceProductWithWarranty() * product.getCountOfProduct();
         }
         return sum;
     }

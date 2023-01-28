@@ -53,8 +53,7 @@ public class BasketPage extends BasePage {
     }
 
     public BasketPage checkPriseProductInBasket(Product product) {
-        int priceProductInBasket = getPriceOfProductInBasket(ProductList
-                .returnArticle(product));
+        int priceProductInBasket = getPriceOfProductInBasket(product.getArticle());
         Assertions.assertEquals(product.getPriceProduct(), priceProductInBasket,
                 "Не верная стоимость товара");
         return this;
@@ -76,7 +75,7 @@ public class BasketPage extends BasePage {
                 waitUntilElementToBeClicable(product.findElement(By
                         .xpath(".//button[@class='menu-control-button remove-button']")))
                         .click();
-                ProductList.removeProduct(removProduct);
+                removProduct.deleteProduct();
                 return this;
             }
         }
@@ -91,16 +90,16 @@ public class BasketPage extends BasePage {
     }
 
 
-    public BasketPage countOfProductInBasket(Product product, String articl) {
+    public BasketPage addProductInBasket(Product product) {
         for (WebElement productInList : shoppingList) {
             scrollWithOffset(productInList, 0, -250);
             if (productInList.findElement(By
                             .xpath(".//div[@class='cart-items__product-code']/div"))
-                    .getText().contains(articl)) {
+                    .getText().contains(product.getArticle())) {
                 waitUntilElementToBeClicable(productInList.findElement(By
                         .xpath(".//button[@class='count-buttons__button count-buttons__button_plus']")))
                         .click();
-                ProductList.addInMap(product, articl);
+                product.addProduct();
                 return this;
             }
         }
@@ -115,9 +114,9 @@ public class BasketPage extends BasePage {
         return this;
     }
 
-    public BasketPage returnProduct(Product product, String article) {
+    public BasketPage returnRemovedProduct(Product product) {
         returnProduct.click();
-        ProductList.addInMap(product, article);
+        product.addProduct();
         return this;
     }
 
