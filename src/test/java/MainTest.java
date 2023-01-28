@@ -40,7 +40,7 @@ public class MainTest extends BaseTests {
                 .checkPriseProductInBasket(iphone)
                 .checkPriseProductInBasket(airPods)
                 .checkBasketPrice()
-                .removeProductInBasket(airPods, ProductList.returnArticle(airPods))
+                .removeProductInBasket(airPods)
                 .checkRemoveProduct()
                 .checkBasketPrice()
                 .countOfProductInBasket(iphone2, ProductList.returnArticle(iphone))
