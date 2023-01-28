@@ -1,14 +1,14 @@
 package framework.managers;
 
-import framework.pages.BasketPage;
-import framework.pages.ProductPage;
-import framework.pages.StartPage;
+import framework.pages.BasePage;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PageManager {
     private static PageManager INSTANCE = null;
-    private StartPage startPage;
-    private ProductPage productPage;
-    private BasketPage basketPage;
+    private static Map<String, Object> mapPages = new HashMap<>();
 
     private PageManager() {
 
@@ -21,24 +21,20 @@ public class PageManager {
         return INSTANCE;
     }
 
-    public StartPage getStartPage() {
-        if (startPage == null) {
-            startPage = new StartPage();
+    public <T extends BasePage> T getPage(Class<T> page) {
+
+        if (mapPages.isEmpty() || mapPages.get(page.getName()) == null) {
+            try {
+                mapPages.put(page.getName(), page.getConstructor().newInstance());
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                     NoSuchMethodException e) {
+                throw new RuntimeException(e);
+            }
         }
-        return startPage;
+        return (T) mapPages.get(page.getName());
     }
 
-    public ProductPage getProductPage() {
-        if (productPage == null) {
-            productPage = new ProductPage();
-        }
-        return productPage;
-    }
-
-    public BasketPage getBasketPage() {
-        if (basketPage == null) {
-            basketPage = new BasketPage();
-        }
-        return basketPage;
+    public void clearPages() {
+        mapPages.clear();
     }
 }

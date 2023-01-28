@@ -31,8 +31,10 @@ public class TestPropManager {
     }
 
     private void loadCustomProperties() {
-        properties.forEach((key, value) -> System.getProperties().forEach((customUserKey, customUserValue) -> {
-            if (key.toString().equals(customUserKey.toString()) && !value.toString().equals(customUserValue.toString())) {
+        properties.forEach((key, value) -> System.getProperties().forEach((customUserKey,
+                                                                           customUserValue) -> {
+            if (key.toString().equals(customUserKey.toString()) && !value.toString()
+                    .equals(customUserValue.toString())) {
                 properties.setProperty(key.toString(), customUserValue.toString());
             }
         }));

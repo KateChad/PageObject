@@ -4,7 +4,6 @@ import framework.managers.DriverManager;
 import framework.managers.PageManager;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -33,5 +32,23 @@ public class BasePage {
         return element;
     }
 
+    protected void waitStabilityPage(int maxWaitMillis, int pollDelimiter) {
+        double startTime = System.currentTimeMillis();
+        while (System.currentTimeMillis() < startTime + maxWaitMillis) {
+            String prevState = driverManager.getDriver().getPageSource();
+            wait(pollDelimiter);
+            if (prevState.equals(driverManager.getDriver().getPageSource())) {
+                return;
+            }
+        }
+    }
+
+    protected void wait(int mlSec) {
+        try {
+            Thread.sleep(mlSec);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

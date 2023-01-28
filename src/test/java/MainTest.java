@@ -1,48 +1,58 @@
+import framework.object.ProductList;
 import framework.object.Product;
-import org.junit.jupiter.api.Assertions;
+import framework.pages.BasketPage;
+import framework.pages.StartPage;
 import org.junit.jupiter.api.Test;
 
 public class MainTest extends BaseTests {
     @Test
     public void mainTest() {
-        pageManager.getStartPage()
+        Product iphone = new Product("5072935");
+        Product iphone2 = new Product("5072935");
+        Product iphone3 = new Product("5072935");
+        Product airPods = new Product("5072988");
+        ProductList.addInMap(iphone, iphone.getArticle());
+        ProductList.addInMap(airPods, airPods.getArticle());
+        pageManager.getPage(StartPage.class)
+                .checkDNSFirstPage()
                 .getBaseMenuBlock()
-                .findProduct("iphone")
-                .selectCatalogByArticle("5072935");
-        Product ipone = new Product();
-        ipone.setPriceProduct(pageManager.getProductPage().getPriceProduct());
-        pageManager.getProductPage().clickWarranty();
-        ipone.setPriceWarranty(pageManager.getProductPage().getPriceWarranty());
-        pageManager.getProductPage()
+                .findProductGoToCatalog("iphone")
+                .checkCatalog()
+                .selectCatalogByArticle(ProductList.returnArticle(iphone))
+                .checkCardOfProduct()
+                .getPriceProduct(iphone)
+                .clickWarranty()
+                .changesPrice()
+                .getPriceWarranty(iphone)
                 .clickBuy()
+                .checkClickBuy()
                 .getBaseMenuBlock()
-                .findProduct("Apple AirPods Pro 2");
-        Product airPods = new Product();
-        airPods.setPriceProduct(pageManager.getProductPage().getPriceProduct());
-        pageManager.getProductPage().clickBuy();
-        int sumPrice1 = ipone.getPriceProductWithWarranty() + airPods.getPriceProduct();
-        int priceInBasket = pageManager.getProductPage().getBaseMenuBlock().getPriceInBasket();
-        Assertions.assertEquals(sumPrice1, priceInBasket, "Не верная стоимость в заначке корзины");
-        pageManager.getProductPage()
+                .findProductGoToProductPage("Apple AirPods Pro 2")
+                .checkCardOfProduct()
+                .getPriceProduct(airPods)
+                .clickBuy()
+                .checkClickBuy()
                 .getBaseMenuBlock()
-                .goToBasket();
-        pageManager.getBasketPage().checkWarranty("5072935");
-        int priceProductInBasket = pageManager.getBasketPage().getPriceOfProductInBasket("5072935");
-        Assertions.assertEquals(ipone.getPriceProduct(), priceProductInBasket, "Не верная стоимость 1 товара");
-        int priceProduct2InBasket = pageManager.getBasketPage().getPriceOfProductInBasket("5072988");
-        Assertions.assertEquals(airPods.getPriceProduct(), priceProduct2InBasket, "Не верная стоимость 2 товара");
-        int priceBasket = pageManager.getBasketPage().getBasketPrice();
-        Assertions.assertEquals(sumPrice1, priceBasket, "Не верная стоимость корзины");
-        pageManager.getBasketPage().removeProductInBasket("5072988");
-        int priceBasketWithout2 = pageManager.getBasketPage().getBasketPrice();
-        Assertions.assertEquals(priceBasket - airPods.getPriceProduct(), priceBasketWithout2, "Не изменилась сумма товара после удаления");
-        pageManager.getBasketPage()
-                .countOfProductInBasket("5072935")
-                .countOfProductInBasket("5072935")
-                .returnProduct();
-        int priceBasketEnd = pageManager.getBasketPage().getBasketPrice();
-        int priceEnd = (3 * ipone.getPriceProductWithWarranty()) + airPods.getPriceProduct();
-        Assertions.assertEquals(priceEnd, priceBasketEnd, "Не верная итоговая стоимость");
-
+                .checkPriceInBasketLabel()
+                .goToBasket()
+                .checkPageBasket()
+                .checkWarranty(ProductList.returnArticle(iphone))
+                .checkPriseProductInBasket(iphone)
+                .checkPriseProductInBasket(airPods)
+                .checkBasketPrice()
+                .removeProductInBasket(airPods, ProductList.returnArticle(airPods))
+                .checkRemoveProduct()
+                .checkBasketPrice()
+                .countOfProductInBasket(iphone2, ProductList.returnArticle(iphone))
+                .checkCountOfProduct(ProductList.sizeMapOfProduct())
+                .countOfProductInBasket(iphone3, ProductList.returnArticle(iphone))
+                .checkCountOfProduct(ProductList.sizeMapOfProduct())
+                .returnProduct(airPods, airPods.getArticle())
+                .checkReturn(ProductList.returnArticle(airPods));
+        iphone2.setPriceProduct(iphone.getPriceProduct());
+        iphone2.setPriceWarranty(iphone.getPriceWarranty());
+        iphone3.setPriceProduct(iphone.getPriceProduct());
+        iphone3.setPriceWarranty(iphone.getPriceWarranty());
+        pageManager.getPage(BasketPage.class).checkBasketPrice();
     }
 }

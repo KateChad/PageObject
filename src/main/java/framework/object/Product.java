@@ -4,6 +4,16 @@ public class Product {
     int priceProduct;
     int priceWarranty;
 
+    String article;
+
+    public Product(String article) {
+        this.article = article;
+    }
+
+    public String getArticle() {
+        return article;
+    }
+
     public int getPriceProduct() {
         return priceProduct;
     }
